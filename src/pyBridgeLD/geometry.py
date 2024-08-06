@@ -5,17 +5,18 @@ from dataclasses import dataclass
 @dataclass
 class Bridge_configuration:
     """
-    A class that contains all the information to describe a configuration of a bridge
+    A class that contains all the information to describe a configuration of a bridge (longitudinal and transversal directions)
 
     Parameters:
     -cw_width: width of carriageway
     -n_beams: number of beams
-    -n_diaph: number of internal transversal diaphragms (the external diaphragms near supports are not considered)
     -beam_spacing: spacing between beams, supposed constant
     -beam_cantilever_right: lenght of cantilever for the right side of deck (0 as default)
     -beam_cantilever_left: lenght of cantilever for the left side of deck (0 as default)
     -beam_length: beam total length
-    
+    -n_diaph: number of internal transversal diaphragms, the external diaphragms near supports are not considered (0 as default)
+    -diaph_spacing: longitudinal spacing between diaphragms, supposed constant (0 as default)
+
     """
     cw_width: float
     n_beams: int
@@ -29,7 +30,7 @@ class Bridge_configuration:
     @property
     def beam_distance(self) -> list[float]:
         """
-        Returns a list of float containing the relative distance between i-th beam and the centerline of cross section's bridge.
+        Returns a list of floats containing the relative distance between i-th beam and the centerline of cross section's bridge.
         """
         if self.n_beams < 2:
             raise ValueError(f"Number of beams can't be {self.n_beams}, but at least > 2")

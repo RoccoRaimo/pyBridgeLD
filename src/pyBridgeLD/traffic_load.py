@@ -18,7 +18,7 @@ class Vehicle:
     veh_load_dist: float = 0
     
 @dataclass
-class TL_Configuration:
+class TL_configuration:
     """
     A data class that defines a transversal Traffic Load Configuration.
     Arbitrary number of Vehicle objects can be used.

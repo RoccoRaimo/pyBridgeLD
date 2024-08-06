@@ -11,7 +11,7 @@ class LoadDistribution:
 
     - Courbon theory: 1) Diaphragms have infinite flexural stiffness;
                       2) Beams have infinite torsional stiffness;
-                      3) Diaphragms are supposed as continuosly distributed along the length of longitudinal beams (infinite number of diaphragms).
+                      3) Diaphragms are supposed as continuously distributed along the length of longitudinal beams (infinite number of diaphragms).
 
     - Engesser theory: 1) Diaphragms have infinite flexural stiffness;
                        2) Beams have infinite torsional stiffness.
@@ -20,11 +20,11 @@ class LoadDistribution:
                                     2) Harmonic analysis can be performed in longitudinal direction, so that means that a simple supported scheme is considered.
 
     Parameters:
-    cs: geometry.Bridge_cross_section type
-    traffic_load: trafficload.Vehicle type
+    cs: geometry.Bridge_configuration
+    tl_config: tl.TL_configuration
     """
     cs: geom.Bridge_configuration
-    tl_config: tl.TL_Configuration
+    tl_config: tl.TL_configuration
 
     def courbon(self):
         """
