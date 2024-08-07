@@ -14,7 +14,7 @@ class Bridge_configuration:
     -beam_cantilever_right: lenght of cantilever for the right side of deck (0 as default)
     -beam_cantilever_left: lenght of cantilever for the left side of deck (0 as default)
     -beam_length: beam total length
-    -n_diaph: number of internal transversal diaphragms, the external diaphragms near supports are not considered (0 as default)
+    -n_diaph: number of internal transversal diaphragms, the external diaphragms near supports are not considered (3 as default)
     -diaph_spacing: longitudinal spacing between diaphragms, supposed constant (0 as default)
 
     """
@@ -24,7 +24,7 @@ class Bridge_configuration:
     beam_cantilever_right: float = 0
     beam_cantilever_left: float = 0
     beam_length: float = 0
-    n_diaph: int = 0
+    n_diaph: int = 3
     diaph_spacing: float = 0
 
     @property

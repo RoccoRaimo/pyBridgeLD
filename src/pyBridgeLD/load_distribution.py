@@ -60,7 +60,10 @@ class LoadDistribution:
             for idx, item in enumerate(self.tl_config.tl_dist()[0]):
                 product = self.tl_config.tl_dist()[0][idx] * self.tl_config.tl_dist()[1][idx]    
                 load_per_ecc_dist.append(product)
-            ecc_dist = sum(load_per_ecc_dist) / sum(self.tl_config.tl_dist()[0])
+            if item == 0:
+                ecc_dist = 0
+            else: 
+                ecc_dist = sum(load_per_ecc_dist) / sum(self.tl_config.tl_dist()[0])
             
             # Calculate the resultant forces/moments of concentrated/distributed definition for traffic_load      
             resultant_conc_force = round(sum(self.tl_config.tl_conc()[0]), 2)

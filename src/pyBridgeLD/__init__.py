@@ -29,6 +29,6 @@ THE SOFTWARE.
 
 __version__ = "0.1.0"
 
-from .geometry import *
-from .traffic_load import *
-from .load_distribution import *
+from pyBridgeLD import geometry
+from pyBridgeLD import traffic_load
+from pyBridgeLD import load_distribution
