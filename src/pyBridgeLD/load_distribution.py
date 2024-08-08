@@ -1,5 +1,5 @@
-import geometry as geom
-import traffic_load as tl
+from pyBridgeLD import geometry as geom
+from pyBridgeLD import traffic_load as tl
 from dataclasses import dataclass
 import pandas as pd
 import plotly.express as px

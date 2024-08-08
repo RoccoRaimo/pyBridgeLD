@@ -5,9 +5,15 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "pyBridgeLD"
 authors = [{name = "Rocco Raimo", email = "software@ingraimo.simplelogin.com"}]
+readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
+dependencies = [
+    "pandas",
+    "plotly"
+]
 
 [project.urls]
 Home = "https://github.com/RoccoRaimo/pyBridgeLD"
+
