@@ -55,7 +55,10 @@ class TL_configuration:
             for weight in vehicle.veh_load_conc:
                 load_weights.append(weight)
             for ecc in vehicle.veh_load_conc_spacing:
-                eccentricity = ecc + self.veh_ecc[idx]
-                eccentricity_rounded = round(eccentricity, 2)
-                load_ecc.append(eccentricity_rounded)
+                eccentricity_1 = self.veh_ecc[idx] - ecc / 2
+                eccentricity_rounded_1 = round(eccentricity_1, 2)
+                eccentricity_2 = self.veh_ecc[idx] + ecc / 2
+                eccentricity_rounded_2 = round(eccentricity_2, 2)
+                load_ecc.append(eccentricity_rounded_1)
+                load_ecc.append(eccentricity_rounded_2)
         return load_weights, load_ecc

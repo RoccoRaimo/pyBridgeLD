@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 from pyBridgeLD import geometry
 from pyBridgeLD import traffic_load
