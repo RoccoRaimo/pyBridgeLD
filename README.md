@@ -35,7 +35,9 @@ import pyBridgeLD as pybld
 ## Examples
 You can find some examples of usage in examples folder:
 
-- [**Example n.1**](https://github.com/RoccoRaimo/pyBridgeLD/blob/main/docs/Notebooks/Example_1.ipynb): Basic import and usage of library with a simple application of Courbon theory for bridge load distribution;
+- [**Example n.1**](https://github.com/RoccoRaimo/pyBridgeLD/blob/main/docs/Notebooks/Example_1.ipynb): Basic import and usage of library with a simple application of Courbon theory for bridge load distribution - Single vehicle;
+
+- [**Example n.2**](https://github.com/RoccoRaimo/pyBridgeLD/blob/main/docs/Notebooks/Example_2.ipynb): Courbon theory for bridge load distribution with multiple vehicles;
 
 ## License
 
