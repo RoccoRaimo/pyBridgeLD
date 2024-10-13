@@ -4,6 +4,8 @@ from dataclasses import dataclass
 import pandas as pd
 import plotly.express as px
 
+import math
+
 @dataclass
 class LoadDistribution:
     """
@@ -225,5 +227,18 @@ class LoadDistribution:
 
         #Calculation of k_0, k_1 and k parameters
 
+        #Calculation of k_0
+        y_i = 0 #i-th beam
+        e_i = 0
+
+        lambd = (math.pi / self.cs.beam_length * math.sqrt(2)) * (rho_P / rho_E)**(1/4)
+
+        a_low = 2 * math.cosh(lambd*(y_i+b)) * math.cos(lambd*(y_i+b))
+        a_upp = math.sinh(2*lambd*b) * math.cos(lambd*(b+e_i)) * math.cosh(lambd*(b-e_i)) - math.sin(2*lambd*b) * math.cosh(lambd*(b + e_i)) * math.cos(lambd* (b-e_i))
+        b_low = math.cosh(lambd*(y_i+b)) * math.sin(lambd*(y_i + b)) + math.sinh(lambd * (y_i + b)) * math.cos(lambd*(y_i+b))
+        b_upp_1 =  math.sinh(2*lambd*b)*(math.sin(lambd*(b+e_i))*math.cosh(lambd*(b-e_i)) - math.cos(lambd*(b+e_i))*math.sinh(lambd*(b-e_i)))
+        b_upp_2 =  math.sin(2*lambd*b)*(math.sinh(lambd*(b+e_i))*math.cos(lambd*(b-e_i)) - math.cosh(lambd*(b+e_i))*math.sin(lambd*(b-e_i)))
+
+        #Calculation of k_1
         
         return
