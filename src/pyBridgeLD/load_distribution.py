@@ -206,39 +206,76 @@ class LoadDistribution:
         """
         b = self.cs.cw_width / 2
         l = self.cs.beam_length
-        b_t = self.cs.beam_spacing
+        b_1 = self.cs.beam_spacing
+        l_1 = self.cs.diaph_spacing
 
         G_beam = E[0] / (2*(1+nu))
         G_diaph = E[1] / (2*(1+nu))  
 
         #Flexural stiffness per unit
-        D_x_beam = E[0] * I_l[0]  / l         
-        D_x_diaph = E[1] * I_l[1]  / b_t   
+        rho_p = E[0] * I_l[0]  / b_1         
+        rho_e = E[1] * I_l[1]  / l_1   
 
         #Torsional stiffness per unit
-        D_y_beam = G_beam * I_t  / b_t      
-        D_y_diaph = G_diaph * I_t  / l  
+        gamma_p = G_beam * I_t[0]  / b_1      
+        gamma_e = G_diaph * I_t[1]  / l_1  
 
         #Flexural parameter     
-        theta = (b / l) * (D_x_beam / D_y_beam)^(1/4)
+        theta = (b / l) * (rho_p / rho_e)**(1/4)
         
         #Torsional parameter
-        alpha = (D_y_beam + D_y_diaph) / (2 * (D_x_beam * D_x_diaph)^(1/2))
+        alpha = (gamma_p + gamma_e) / (2 * (rho_p * rho_e)**(1/2))
 
         #Calculation of k_0, k_1 and k parameters
-
-        #Calculation of k_0
-        y_i = 0 #i-th beam
-        e_i = 0
-
-        lambd = (math.pi / self.cs.beam_length * math.sqrt(2)) * (rho_P / rho_E)**(1/4)
-
-        a_low = 2 * math.cosh(lambd*(y_i+b)) * math.cos(lambd*(y_i+b))
-        a_upp = math.sinh(2*lambd*b) * math.cos(lambd*(b+e_i)) * math.cosh(lambd*(b-e_i)) - math.sin(2*lambd*b) * math.cosh(lambd*(b + e_i)) * math.cos(lambd* (b-e_i))
-        b_low = math.cosh(lambd*(y_i+b)) * math.sin(lambd*(y_i + b)) + math.sinh(lambd * (y_i + b)) * math.cos(lambd*(y_i+b))
-        b_upp_1 =  math.sinh(2*lambd*b)*(math.sin(lambd*(b+e_i))*math.cosh(lambd*(b-e_i)) - math.cos(lambd*(b+e_i))*math.sinh(lambd*(b-e_i)))
-        b_upp_2 =  math.sin(2*lambd*b)*(math.sinh(lambd*(b+e_i))*math.cos(lambd*(b-e_i)) - math.cosh(lambd*(b+e_i))*math.sin(lambd*(b-e_i)))
-
-        #Calculation of k_1
+        k_0 = []
+        k_1 = []
+        k = [] 
         
-        return
+        for distance in self.cs.beam_distance:
+        
+            y_i = distance #i-th beam
+            e_i = 0
+
+            if e_i<=y_i:
+                y_i = -distance
+                e_i = -e_i
+
+            #Calculation of k_0
+            lambd = (math.pi / (self.cs.beam_length * math.sqrt(2))) * (rho_p / rho_e)**(1/4)
+
+            a_low = 2 * math.cosh(lambd*(y_i+b)) * math.cos(lambd*(y_i+b))
+            a_upp = math.sinh(2*lambd*b) * math.cos(lambd*(b+e_i)) * math.cosh(lambd*(b-e_i)) - math.sin(2*lambd*b) * math.cosh(lambd*(b + e_i)) * math.cos(lambd* (b-e_i))
+            b_low = math.cosh(lambd*(y_i+b)) * math.sin(lambd*(y_i + b)) + math.sinh(lambd * (y_i + b)) * math.cos(lambd*(y_i+b))
+            b_upp_1 =  math.sinh(2*lambd*b)*(math.sin(lambd*(b+e_i))*math.cosh(lambd*(b-e_i)) - math.cos(lambd*(b+e_i))*math.sinh(lambd*(b-e_i)))
+            b_upp_2 =  math.sin(2*lambd*b)*(math.sinh(lambd*(b+e_i))*math.cos(lambd*(b-e_i)) - math.cosh(lambd*(b+e_i))*math.sin(lambd*(b-e_i)))
+
+            k_0_i = 2 * lambd * b * (a_low * a_upp + b_low * (b_upp_1+b_upp_2)) / (math.sinh(2*lambd*b)**2 - math.sin(2*lambd*b)**2)
+        
+            #Calculation of k_1
+
+            psi = math.pi * e_i / b 
+            beta = math.pi * y_i / b
+            sigma = theta * math.pi
+            csi = math.pi - abs(beta - psi)
+
+            r_psi = math.cosh(theta * psi) * (sigma*math.cosh(sigma) - math.sinh(sigma)) - theta * psi * math.sinh(sigma) * math.sinh(theta*psi)
+            r_beta = math.cosh(theta * beta) * (sigma*math.cosh(sigma) - math.sinh(sigma)) - theta * beta * math.sinh(sigma) * math.sinh(theta*beta)
+
+            q_psi = math.sinh(theta * psi) * (2*math.sinh(sigma) - sigma*math.cosh(sigma)) - theta * psi * math.sinh(sigma) * math.cosh(theta*psi)
+            q_beta = math.sinh(theta * beta) * (2*math.sinh(sigma) - sigma*math.cosh(sigma)) - theta * beta * math.sinh(sigma) * math.cosh(theta*beta)
+
+            c = math.cosh(theta * csi) * (sigma * math.cosh(sigma) + math.sinh(sigma))
+            d = theta*csi*math.sinh(sigma)*math.sinh(theta*csi)
+            e = r_beta*r_psi / (3*math.sinh(sigma)*math.cosh(sigma)-sigma)
+            f = q_beta*q_psi / (3*math.sinh(sigma)*math.cosh(sigma)+sigma)
+
+            k_1_i = sigma * (c - d + e + f) / (2*(math.sinh(sigma))**2)
+
+            #Calculation of k for GMB theory
+
+            k_i = k_0_i + (k_1_i - k_0_i) * alpha**(1/2)
+            k_0.append(k_0_i)
+            k_1.append(k_1_i)
+            k.append(k_i)
+
+        return k_0, k_1, k

@@ -29,7 +29,7 @@ import pyBridgeLD as pybld
 
 - ☑ Courbon theory of load distribution
 - ☐ Engesser theory of load distribution
-- ☐ Guyon-Massonnett-Bares theory of load distribution
+- ☐ Guyon-Massonnet-Bares theory of load distribution
 
 
 ## Examples
